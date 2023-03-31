@@ -1,0 +1,30 @@
+name: Label WIP issues
+on:
+  pull_request:
+    types:
+      - edited
+jobs:
+  label_issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - if: startsWith:(github.event.pull_request.title, WIP)
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["WIP"]
+      - if: !startsWith:(github.event.pull_request.title, WIP)
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.removeLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["WIP"]
+

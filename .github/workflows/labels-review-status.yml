@@ -1,0 +1,17 @@
+name: Label updated issues
+on:
+  pull_request:
+    types:
+      - 
+  push:
+jobs:
+  label_issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      - if: pull_request_review.review.state.changes_requested
+# needs_revision (change requested event; the logic in the bot is complex...)
+
+# needs_rebase (maybe?  GH does this for us.)
+
+# ready_for_review would be on contains(event.pull_request.comment, ready_for_review). Is this valuable? I don't think contributors are using it much anymore.
